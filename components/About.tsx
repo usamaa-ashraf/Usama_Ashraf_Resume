@@ -9,7 +9,7 @@ const icons = [Target, Layers, Compass, Target];
 
 export default function About() {
   return (
-    <section id="about" className="relative py-20 sm:py-24">
+    <section id="about" className="relative overflow-x-clip py-20 sm:py-24">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeading
           index="01"
@@ -24,18 +24,18 @@ export default function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-            className="relative overflow-hidden rounded-3xl border border-line bg-surface p-7 sm:p-9"
+            className="relative overflow-hidden rounded-3xl border border-line bg-surface p-6 sm:p-9"
           >
             <div className="pointer-events-none absolute -right-10 -top-10 size-40 rounded-full bg-indigo-100/60 blur-2xl dark:bg-indigo-500/10" />
             <Quote className="size-8 text-accent/30" />
-            <p className="relative mt-4 text-pretty text-lg leading-relaxed text-ink/80 sm:text-xl">
+            <p className="relative mt-4 text-pretty text-sm leading-relaxed text-muted sm:text-base lg:text-lg">
               {profile.about}
             </p>
-            <div className="relative mt-7 flex flex-wrap gap-2">
+            <div className="relative mt-7 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
               {principles.map((principle) => (
                 <span
                   key={principle}
-                  className="rounded-full border border-line bg-surface px-3 py-1.5 font-mono text-[11px] text-muted"
+                  className="rounded-full border border-line bg-surface px-3 py-1.5 text-center font-mono text-[10px] text-muted sm:text-left sm:text-[11px]"
                 >
                   {principle}
                 </span>
@@ -67,23 +67,23 @@ export default function About() {
               return (
                 <motion.div
                   key={item.title}
-                  initial={{ opacity: 0, y: 24 }}
+                  initial={{ opacity: 0, y: 16 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-60px" }}
+                  viewport={{ once: true, margin: "-40px" }}
                   transition={{
-                    duration: 0.55,
-                    delay: index * 0.08,
+                    duration: 0.45,
+                    delay: index * 0.07,
                     ease: [0.22, 1, 0.36, 1],
                   }}
-                  className="card-hover rounded-2xl border border-line bg-surface p-5"
+                  className="card-hover rounded-2xl border border-line bg-surface p-4 sm:p-5"
                 >
                   <span className="grid size-9 place-items-center rounded-xl border border-accent/15 bg-accent-soft text-accent">
                     <Icon className="size-4" />
                   </span>
-                  <h3 className="mt-4 text-sm font-semibold text-ink">
+                  <h3 className="mt-3 text-sm font-semibold text-ink sm:mt-4">
                     {item.title}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted">
+                  <p className="mt-1.5 text-xs leading-relaxed text-muted sm:mt-2 sm:text-sm">
                     {item.description}
                   </p>
                 </motion.div>

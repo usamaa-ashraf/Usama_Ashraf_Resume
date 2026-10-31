@@ -85,7 +85,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section id="top" className="relative overflow-hidden pt-32 pb-16 sm:pt-40">
+    <section id="top" className="relative overflow-hidden pt-28 pb-12 sm:pt-40 sm:pb-16">
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-grid [mask-image:radial-gradient(ellipse_at_top,black_18%,transparent_72%)]" />
         <div className="absolute -top-44 left-1/4 h-[34rem] w-[34rem] -translate-x-1/2 rounded-full bg-indigo-200/40 blur-[150px] dark:bg-indigo-500/10" />
@@ -93,8 +93,10 @@ export default function Hero() {
         <div className="absolute right-1/3 top-1/2 h-64 w-64 rounded-full bg-emerald-100/50 blur-[120px] dark:bg-emerald-500/10" />
       </div>
 
-      <div className="mx-auto grid max-w-6xl items-center gap-14 px-5 sm:px-8 lg:grid-cols-[1.2fr_0.8fr] lg:gap-12">
-        <div>
+      {/* overflow-x-clip stops -mx carousels from creating page-level horizontal scroll */}
+      <div className="overflow-x-clip">
+      <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 sm:px-8 lg:grid-cols-[1.2fr_0.8fr] lg:gap-12">
+        <div className="min-w-0 order-2 sm:order-none lg:order-none">
           <motion.div
             variants={fadeUp}
             initial="hidden"
@@ -114,7 +116,7 @@ export default function Hero() {
             initial="hidden"
             animate="show"
             custom={0.1}
-            className="mt-6 max-w-2xl text-balance text-[1.6rem] font-semibold leading-[1.1] tracking-tight text-ink sm:text-4xl lg:text-[2.5rem]"
+            className="mt-5 text-[1.25rem] font-semibold leading-[1.2] tracking-tight text-ink sm:text-[2rem] lg:text-[2.5rem]"
           >
             Bridging Technical Execution &amp; Business Strategy Across{" "}
             <span className="text-gradient">Web3, AI &amp; Fintech</span>.
@@ -125,7 +127,7 @@ export default function Hero() {
             initial="hidden"
             animate="show"
             custom={0.2}
-            className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted sm:text-lg"
+            className="mt-4 text-sm leading-relaxed text-muted sm:text-base lg:text-lg"
           >
             {profile.subheading}
           </motion.p>
@@ -134,19 +136,19 @@ export default function Hero() {
             variants={fadeUp}
             initial="hidden"
             animate="show"
-            custom={0.3}
+            custom={0.25}
             className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center"
           >
             <a
               href="#projects"
-              className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 transition-all hover:bg-indigo-700 hover:shadow-xl hover:shadow-indigo-500/25 sm:w-auto"
+              className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 transition-all hover:bg-indigo-700 hover:shadow-xl hover:shadow-indigo-500/25 sm:w-auto sm:px-6 sm:py-3"
             >
               Explore Projects
               <ArrowDownRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
             </a>
             <a
               href="#contact"
-              className="group inline-flex w-full items-center justify-center gap-2 rounded-full border border-line-strong bg-surface px-6 py-3 text-sm font-medium text-ink transition-all hover:border-accent/40 hover:bg-surface-2 sm:w-auto"
+              className="group inline-flex w-full items-center justify-center gap-2 rounded-full border border-line-strong bg-surface px-5 py-2.5 text-sm font-medium text-ink transition-all hover:border-accent/40 hover:bg-surface-2 sm:w-auto sm:px-6 sm:py-3"
             >
               <Mail className="size-4 text-accent" />
               Get In Touch
@@ -159,22 +161,22 @@ export default function Hero() {
             initial="hidden"
             animate="show"
             custom={0.4}
-            className="-mx-5 mt-10 grid snap-x snap-mandatory auto-cols-[82%] grid-flow-col gap-3 overflow-x-auto px-5 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:max-w-xl sm:auto-cols-auto sm:grid-flow-row sm:grid-cols-3 sm:overflow-visible sm:px-0 sm:pb-0"
+            className="mt-8 grid grid-cols-3 gap-2 sm:max-w-xl sm:gap-3"
           >
             {heroMetrics.map((metric) => (
               <div
                 key={metric.label}
-                className="snap-start rounded-2xl border border-line bg-surface/70 px-4 py-4 transition-colors hover:border-accent/25 hover:bg-base"
+                className="rounded-2xl border border-line bg-surface/70 px-2 py-3 text-center transition-colors hover:border-accent/25 hover:bg-base sm:px-4 sm:py-4 sm:text-left"
               >
                 <dt className="sr-only">{metric.label}</dt>
                 <dd>
-                  <span className="block text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+                  <span className="block text-base font-semibold tracking-tight text-ink sm:text-2xl lg:text-3xl">
                     {metric.value}
                   </span>
-                  <span className="mt-1 block text-xs font-medium leading-snug text-accent">
+                  <span className="mt-0.5 block text-[10px] font-medium leading-tight text-accent sm:mt-1 sm:text-xs">
                     {metric.label}
                   </span>
-                  <span className="mt-1 block text-[11px] leading-tight text-muted">
+                  <span className="mt-0.5 hidden text-[10px] leading-tight text-muted sm:block">
                     {metric.detail}
                   </span>
                 </dd>
@@ -212,7 +214,7 @@ export default function Hero() {
                     <span className="grid size-7 place-items-center rounded-lg bg-surface/80">
                       <CurrentIcon className={`size-4 ${current.color}`} />
                     </span>
-                    <span className="whitespace-nowrap font-mono text-[10px] font-medium uppercase tracking-[0.1em] text-muted">
+                    <span className="hidden whitespace-nowrap font-mono text-[10px] font-medium uppercase tracking-[0.1em] text-muted sm:inline">
                       {current.label}
                     </span>
                   </div>
@@ -296,8 +298,9 @@ export default function Hero() {
           </div>
         </motion.div>
       </div>
+      </div>
 
-      <div className="relative mx-auto mt-16 max-w-6xl overflow-hidden px-5 sm:px-8">
+      <div className="relative mx-auto mt-14 max-w-6xl overflow-hidden px-5 sm:px-8">
         <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-base to-transparent sm:w-24" />
         <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-base to-transparent sm:w-24" />
         <div className="flex w-max animate-marquee gap-3">

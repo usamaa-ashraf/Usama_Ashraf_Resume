@@ -6,6 +6,7 @@ import {
   Activity,
   Briefcase,
   Building2,
+  ChevronDown,
   Cpu,
   Home,
   Landmark,
@@ -22,6 +23,8 @@ import {
   projects,
   type ProjectCategory,
 } from "@/lib/data";
+
+const MOBILE_PAGE_SIZE = 5;
 
 const categoryMeta: Record<
   ProjectCategory,
@@ -72,6 +75,7 @@ const categoryMeta: Record<
 export default function Projects() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<"All" | ProjectCategory>("All");
+  const [mobileLimit, setMobileLimit] = useState(MOBILE_PAGE_SIZE);
 
   const filtered = useMemo(() => {
     const term = query.trim().toLowerCase();
@@ -96,8 +100,19 @@ export default function Projects() {
     });
   }, [category, query]);
 
+  // Reset mobile limit when filter/search changes
+  const handleCategory = (item: "All" | ProjectCategory) => {
+    setCategory(item);
+    setMobileLimit(MOBILE_PAGE_SIZE);
+  };
+  const handleQuery = (value: string) => {
+    setQuery(value);
+    setMobileLimit(MOBILE_PAGE_SIZE);
+  };
+
   return (
-    <section id="projects" className="relative py-20 sm:py-24">
+    // overflow-x-clip contains the -mx-5 filter strip so it doesn't create page scroll
+    <section id="projects" className="relative overflow-x-clip py-20 sm:py-24">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading
@@ -106,7 +121,7 @@ export default function Projects() {
             title="28 enterprise, AI, and Web3 products delivered."
             description="Search the full project directory or filter by domain. Every engagement includes the delivery role, scope, and outcome from the resume."
           />
-          <div className="rounded-2xl border border-line bg-surface px-5 py-4 lg:shrink-0">
+          <div className="rounded-2xl border border-line bg-surface px-4 py-3 lg:shrink-0 sm:px-5 sm:py-4">
             <p className="text-2xl font-semibold tracking-tight text-ink">
               {filtered.length}
               <span className="text-sm font-normal text-muted">
@@ -121,20 +136,21 @@ export default function Projects() {
         </div>
 
         <div className="mt-8 flex flex-col gap-3">
+          {/* Search */}
           <div className="relative">
             <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted" />
             <input
               type="search"
               value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search projects, roles, or stacks — e.g. Solana, KYC, Jira"
-              className="w-full rounded-2xl border border-line bg-surface py-3 pl-11 pr-11 text-sm text-ink shadow-sm shadow-black/5 outline-none transition-colors placeholder:text-muted/70 focus:border-accent/40 focus:ring-4 focus:ring-accent/10"
+              onChange={(event) => handleQuery(event.target.value)}
+              placeholder="Search projects, roles, or stacks…"
+              className="w-full rounded-2xl border border-line bg-surface py-2.5 pl-11 pr-11 text-sm text-ink shadow-sm shadow-black/5 outline-none transition-colors placeholder:text-muted/70 focus:border-accent/40 focus:ring-4 focus:ring-accent/10 sm:py-3"
               aria-label="Search projects"
             />
             {query ? (
               <button
                 type="button"
-                onClick={() => setQuery("")}
+                onClick={() => handleQuery("")}
                 aria-label="Clear search"
                 className="absolute right-3 top-1/2 grid size-7 -translate-y-1/2 place-items-center rounded-full text-muted transition-colors hover:bg-surface-2 hover:text-ink"
               >
@@ -143,15 +159,16 @@ export default function Projects() {
             ) : null}
           </div>
 
-          <div className="-mx-1 flex snap-x snap-mandatory gap-2 overflow-x-auto px-1 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {/* Filter pills — horizontal scroll on mobile */}
+          <div className="-mx-5 ml-[10px] flex snap-x snap-mandatory touch-pan-x gap-2 overflow-x-auto overflow-y-hidden px-5 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0">
             {projectCategories.map((item) => {
               const isActive = category === item;
               return (
                 <button
                   key={item}
                   type="button"
-                  onClick={() => setCategory(item)}
-                  className={`shrink-0 snap-start rounded-full border px-3.5 py-2 text-xs font-medium transition-all sm:text-sm ${
+                  onClick={() => handleCategory(item)}
+                  className={`shrink-0 snap-start rounded-full border px-3 py-1.5 text-xs font-medium transition-all sm:shrink sm:px-3.5 sm:py-2 sm:text-sm ${
                     isActive
                       ? "border-accent bg-accent text-white shadow-lg shadow-indigo-500/20"
                       : "border-line bg-surface text-muted hover:border-accent/30 hover:text-ink"
@@ -164,9 +181,13 @@ export default function Projects() {
           </div>
         </div>
 
+        {/* Project cards */}
         <motion.div layout className="mt-7 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           <AnimatePresence mode="popLayout">
             {filtered.map((project, index) => {
+              // On mobile show MOBILE_PAGE_SIZE initially; on sm+ show all
+              // We use a CSS trick: hide cards beyond the limit only on mobile
+              const hiddenOnMobile = index >= mobileLimit;
               const meta = categoryMeta[project.category];
               const Icon = meta.icon;
               return (
@@ -185,7 +206,7 @@ export default function Projects() {
                     project.featured
                       ? "border-accent/20 shadow-sm shadow-indigo-100/70 dark:shadow-black/20"
                       : "border-line"
-                  }`}
+                  } ${hiddenOnMobile ? "hidden md:flex" : "flex"}`}
                 >
                   <div className="flex items-start justify-between gap-2">
                     <span
@@ -248,6 +269,23 @@ export default function Projects() {
           </AnimatePresence>
         </motion.div>
 
+        {/* Load more — mobile only, shown when there are more items */}
+        {filtered.length > mobileLimit && (
+          <div className="mt-6 md:hidden">
+            <button
+              type="button"
+              onClick={() => setMobileLimit((prev) => prev + MOBILE_PAGE_SIZE)}
+              className="flex w-full items-center justify-center gap-2 rounded-2xl border border-line bg-surface py-3 text-sm font-medium text-muted transition-colors hover:border-accent/30 hover:text-ink"
+            >
+              <ChevronDown className="size-4" />
+              Load more
+              <span className="rounded-full bg-surface-2 px-2 py-0.5 font-mono text-[10px] text-muted">
+                {Math.min(MOBILE_PAGE_SIZE, filtered.length - mobileLimit)} more
+              </span>
+            </button>
+          </div>
+        )}
+
         {filtered.length === 0 ? (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -262,8 +300,8 @@ export default function Projects() {
             <button
               type="button"
               onClick={() => {
-                setQuery("");
-                setCategory("All");
+                handleQuery("");
+                handleCategory("All");
               }}
               className="mt-4 rounded-full bg-accent px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-indigo-700"
             >

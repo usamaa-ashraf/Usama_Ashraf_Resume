@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main>
+      <main className="overflow-x-clip">
         <Hero />
         <About />
         <Skills />

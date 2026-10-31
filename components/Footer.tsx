@@ -5,10 +5,10 @@ export default function Footer() {
   return (
     <footer className="border-t border-line bg-surface">
       <div className="mx-auto max-w-6xl px-5 py-12 sm:px-8">
-        <div className="grid gap-8 md:grid-cols-[1.2fr_0.8fr_0.8fr]">
+        <div className="grid gap-8 text-center md:grid-cols-[1.2fr_0.8fr_0.8fr] md:text-left">
           <div>
-            <a href="#top" className="flex items-center gap-2.5">
-              <span className="grid size-9 place-items-center rounded-xl bg-gradient-to-br from-accent via-accent-blue to-success text-[13px] font-semibold text-white shadow-lg shadow-indigo-500/20">
+            <a href="#top" className="flex items-center justify-center gap-2.5 md:justify-start">
+              <span className="hidden sm:grid size-9 place-items-center rounded-xl bg-gradient-to-br from-accent via-accent-blue to-success text-[13px] font-semibold text-white shadow-lg shadow-indigo-500/20">
                 UA
               </span>
               <span className="flex flex-col leading-tight">
@@ -24,7 +24,7 @@ export default function Footer() {
               Bridging technical execution and business strategy across Web3, AI,
               and Fintech products.
             </p>
-            <div className="mt-4 flex flex-wrap gap-2">
+            <div className="mt-4 flex flex-wrap justify-center gap-2 md:justify-start">
               <a
                 href={`mailto:${profile.email}`}
                 className="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1.5 text-xs text-muted transition-colors hover:border-accent/30 hover:text-accent"
@@ -98,7 +98,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-line pt-6 sm:flex-row">
+        <div className="mt-10 flex flex-col items-center justify-center gap-3 border-t border-line pt-6 text-center md:flex-row md:justify-between">
           <p className="text-xs text-muted">
             © 2026 {profile.name}. All rights reserved.
           </p>

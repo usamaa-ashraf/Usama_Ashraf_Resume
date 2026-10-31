@@ -37,11 +37,11 @@ export default function SectionHeading({
           {index ? `${index} — ${eyebrow}` : eyebrow}
         </span>
       </div>
-      <h2 className="mt-4 text-balance text-[1.65rem] font-semibold leading-tight tracking-tight text-ink sm:text-3xl lg:text-4xl">
+      <h2 className="mt-4 text-balance text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-[1.65rem] lg:text-3xl xl:text-4xl">
         {title}
       </h2>
       {description ? (
-        <p className="mt-4 text-pretty text-sm leading-relaxed text-muted sm:text-base">
+        <p className="mt-4 text-pretty text-sm leading-relaxed text-ink/90 sm:text-base">
           {description}
         </p>
       ) : null}

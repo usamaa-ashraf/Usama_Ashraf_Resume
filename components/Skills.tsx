@@ -47,7 +47,8 @@ export default function Skills() {
   );
 
   return (
-    <section id="skills" className="relative border-y border-line bg-surface/60 py-20 sm:py-24">
+    // overflow-x-clip contains the -mx-5 and -mx-6 carousels so they don't create page-level horizontal scroll
+    <section id="skills" className="relative overflow-x-clip border-y border-line bg-surface/60 py-20 sm:py-24">
       <div className="pointer-events-none absolute inset-0 bg-dots opacity-30 [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_75%)]" />
       <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeading
@@ -57,7 +58,8 @@ export default function Skills() {
           description="Category-filtered competencies spanning project leadership, operations, product direction, and the domains I work in every day."
         />
 
-        <div className="-mx-5 mt-8 flex snap-x snap-mandatory gap-2 overflow-x-auto px-5 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0">
+        {/* Filter pills — horizontal scroll on mobile */}
+        <div className="-mx-5 ml-[10px] mt-8 flex snap-x snap-mandatory touch-pan-x gap-2 overflow-x-auto overflow-y-hidden px-5 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0">
           {skillCategories.map((category) => {
             const isActive = active === category;
             return (
@@ -65,7 +67,7 @@ export default function Skills() {
                 key={category}
                 type="button"
                 onClick={() => setActive(category)}
-                className={`relative shrink-0 snap-start rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                className={`relative shrink-0 snap-start rounded-full px-3 py-1.5 text-xs font-medium transition-colors sm:px-4 sm:py-2 sm:text-sm ${
                   isActive
                     ? "text-white"
                     : "border border-line bg-surface text-muted hover:border-accent/30 hover:text-ink"
@@ -84,7 +86,8 @@ export default function Skills() {
           })}
         </div>
 
-        <motion.div layout className="mt-8 grid gap-4 sm:grid-cols-2">
+        {/* Skills grid: single col on mobile, 2 cols on sm+ */}
+        <motion.div layout className="mt-6 grid gap-3 sm:grid-cols-2">
           <AnimatePresence mode="popLayout">
             {visibleGroups.map((group) => {
               const Icon = iconMap[group.icon];
@@ -92,15 +95,15 @@ export default function Skills() {
                 <motion.article
                   key={group.category}
                   layout
-                  initial={{ opacity: 0, y: 18, scale: 0.98 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -12, scale: 0.98 }}
-                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                  className="card-hover rounded-2xl border border-line bg-surface p-6"
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                  className="card-hover overflow-hidden rounded-2xl border border-line bg-surface p-5 sm:p-6"
                 >
                   <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <h3 className="text-base font-semibold text-ink">
+                    <div className="min-w-0">
+                      <h3 className="truncate text-sm font-semibold text-ink sm:text-base">
                         {group.category}
                       </h3>
                       <p className="mt-1 text-xs text-muted">
@@ -108,16 +111,20 @@ export default function Skills() {
                       </p>
                     </div>
                     <span
-                      className={`grid size-10 place-items-center rounded-xl border ${accentMap[group.category]}`}
+                      className={`grid size-9 shrink-0 place-items-center rounded-xl border sm:size-10 ${accentMap[group.category]}`}
                     >
-                      <Icon className="size-5" />
+                      <Icon className="size-4 sm:size-5" />
                     </span>
                   </div>
-                  <div className="mt-5 flex flex-wrap gap-2">
+                  {/*
+                    Skill tags: horizontal scroll on mobile.
+                    Using overflow-hidden on the article above clips -mx-5 to card edges.
+                  */}
+                  <div className="mt-4 flex flex-wrap gap-1.5 sm:mt-5">
                     {group.skills.map((skill) => (
                       <span
                         key={skill}
-                        className="rounded-lg border border-line bg-surface-2 px-2.5 py-1.5 text-xs font-medium text-muted transition-colors hover:border-accent/25 hover:bg-accent-soft hover:text-accent"
+                        className="rounded-lg border border-line bg-surface-2 px-2 py-1 text-[11px] font-medium text-muted transition-colors hover:border-accent/25 hover:bg-accent-soft hover:text-accent sm:text-xs"
                       >
                         {skill}
                       </span>
@@ -129,7 +136,8 @@ export default function Skills() {
           </AnimatePresence>
         </motion.div>
 
-        <div className="mt-8 flex flex-col gap-3 rounded-2xl border border-line bg-surface p-5 sm:flex-row sm:items-center">
+        {/* Daily tools */}
+        <div className="mt-6 flex flex-col gap-3 rounded-2xl border border-line bg-surface p-4 sm:mt-8 sm:flex-row sm:items-center sm:p-5">
           <p className="shrink-0 font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
             Daily tools
           </p>
@@ -137,7 +145,7 @@ export default function Skills() {
             {tools.map((tool) => (
               <span
                 key={tool}
-                className="rounded-full border border-line bg-surface-2 px-3 py-1 text-xs text-muted"
+                className="rounded-full border border-line bg-surface-2 px-2.5 py-1 text-xs text-muted"
               >
                 {tool}
               </span>

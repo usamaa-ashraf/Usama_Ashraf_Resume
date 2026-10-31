@@ -3,7 +3,7 @@
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 @theme inline {
-  --color-base: var(--c-base);
+  --color-canvas: var(--c-base);
   --color-surface: var(--c-surface);
   --color-surface-2: var(--c-surface-2);
   --color-ink: var(--c-ink);
@@ -18,6 +18,22 @@
   --color-on-accent: var(--c-on-accent);
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, monospace;
+}
+
+.bg-base {
+  background-color: var(--c-base);
+}
+
+.border-base {
+  border-color: var(--c-base);
+}
+
+.from-base {
+  --tw-gradient-from: var(--c-base);
+}
+
+.to-base {
+  --tw-gradient-to: var(--c-base);
 }
 
 :root,
@@ -91,6 +107,8 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 body {
